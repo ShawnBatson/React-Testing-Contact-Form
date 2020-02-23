@@ -55,6 +55,20 @@ const setupMessage = () => {
   };
 };
 
+const getButton = () => {
+  const utilsButton = render(<ContactForm />);
+  const buttonGrab = utilsButton.getByTestId("button-button");
+  return {
+    buttonGrab,
+    ...utilsButton
+  };
+};
+
+test("button is being pressed", () => {
+  const { buttonGrab } = getButton();
+  fireEvent.click(buttonGrab);
+});
+
 test("first name input", () => {
   const { inputFirst } = setupName();
   fireEvent.change(inputFirst, { target: { value: "ted" } });
