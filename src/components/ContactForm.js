@@ -15,30 +15,30 @@ const ContactForm = () => {
     setData(data);
   };
 
-  const changeHandler = event => {
-    setData({
-      ...data,
-      [event.target.firstName]: event.target.value,
-      [event.target.lastName]: event.target.value,
-      [event.target.email]: event.target.value,
-      [event.target.message]: event.target.value
-    });
-  };
-  // const handleChange = event => {
-  //   setData(event.target.value);
+  // const changeHandler = event => {
+  //   setData({
+  //     ...data,
+  //     [event.target.firstName]: event.target.value,
+  //     [event.target.lastName]: event.target.value,
+  //     [event.target.email]: event.target.value,
+  //     [event.target.message]: event.target.value
+  //   });
   // };
+  const handleChange = event => {
+    setData(event.target.value);
+  };
 
   return (
     <div className="App">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label className="firstName">First Name*</label>
+          <label className="first-name">First Name*</label>
           <input
             data-testid="firstName"
             name="firstName"
             placeholder="bill"
-            value=""
-            onChange={changeHandler}
+            aria-label="first-name"
+            onChange={handleChange}
             ref={register({ required: true, maxLength: 3 })}
           />
           {errors.firstName && (
@@ -47,13 +47,13 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <label className="lastName">Last Name*</label>
+          <label className="last-name">Last Name*</label>
           <input
             data-testid="lastName"
             name="lastName"
             placeholder="luo"
-            value=""
-            onChange={changeHandler}
+            aria-label="last-name"
+            onChange={handleChange}
             ref={register({ required: true })}
           />
           {errors.lastName && (
@@ -62,14 +62,14 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <label className="email" placeholder="bluebill1049@hotmail.com">
+          <label className="e-mail" placeholder="bluebill1049@hotmail.com">
             Email*
           </label>
           <input
             data-testid="email"
             name="email"
-            value=""
-            onChange={changeHandler}
+            aria-label="e-mail"
+            onChange={handleChange}
             ref={register({ required: true })}
           />
           {errors.email && (
@@ -77,12 +77,12 @@ const ContactForm = () => {
           )}
         </div>
         <div>
-          <label className="message">Message</label>
+          <label className="message-text">Message</label>
           <textarea
             data-testid="message"
             name="message"
-            value=""
-            onChange={changeHandler}
+            aria-label="message-text"
+            onChange={handleChange}
             ref={register({ required: false })}
           />
         </div>

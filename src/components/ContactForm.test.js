@@ -19,32 +19,64 @@ test("renders ContactForm without crashing", () => {
   expect(message).toBeTruthy();
 });
 
-test("testing the Submit Function", () => {
-  const { getByText, getByLabelText, getAllByTestId } = render(<ContactForm />);
-  const nameInput = getAllByTestId("firstName");
-  const lastInput = getAllByTestId("lastName");
-  const emailInput = getAllByTestId("email");
-  const messageInput = getAllByTestId("message");
+const setupName = () => {
+  const utilsFirst = render(<ContactForm />);
+  const inputFirst = utilsFirst.getByLabelText("first-name");
+  return {
+    inputFirst,
+    ...utilsFirst
+  };
+};
 
-  fireEvent.change(nameInput, { target: { value: "Ted" } });
-  fireEvent.change(lastInput, { target: { value: "Kasinsky" } });
-  fireEvent.change(emailInput, { target: { value: "kasinsky@hotmail.com" } });
-  fireEvent.change(messageInput, { target: { value: "Whatever Goes Here" } });
+const setupLast = () => {
+  const utilsLast = render(<ContactForm />);
+  const inputLast = utilsLast.getByLabelText("last-name");
+  return {
+    inputLast,
+    ...utilsLast
+  };
+};
 
-  expect(nameInput.value).toBe("Ted");
-  expect(lastInput.value).toBe("Kasinsky");
-  expect(emailInput.value).toBe("kasinsky@hotmail.com");
-  expect(messageInput.value).toBe("Whatever Goes Here");
+const setupEmail = () => {
+  const utilsEmail = render(<ContactForm />);
+  const inputEmail = utilsEmail.getByLabelText("e-mail");
+  return {
+    inputEmail,
+    ...utilsEmail
+  };
+};
 
-  fireEvent.click(getByText(/submit/i));
+const setupMessage = () => {
+  const utilsText = render(<ContactForm />);
+  const inputText = utilsText.getByLabelText("message-text");
+  return {
+    inputText,
+    ...utilsText
+  };
+};
 
-  const nameText = getByText(/ted/i);
-  const lastText = getByText(/Kasinsky/i);
-  const emailText = getByText(/kasinsky@hotmail.com/i);
-  const messageText = getByText(/Whatever Goes Here/i);
+test("first name input", () => {
+  const { inputFirst } = setupName();
+  fireEvent.change(inputFirst, { target: { value: "ted" } });
+  expect(inputFirst.value).toBe("ted");
+});
 
-  expect(nameText).toBeInTheDocument();
-  expect(lastText).toBeInTheDocument();
-  expect(emailText).toBeInTheDocument();
-  expect(messageText).toBeInTheDocument();
+test("last name input", () => {
+  const { inputLast } = setupLast();
+  fireEvent.change(inputLast, { target: { value: "kasinsky" } });
+  expect(inputLast.value).toBe("kasinsky");
+});
+
+test("email should input", () => {
+  const { inputEmail } = setupEmail();
+  fireEvent.change(inputEmail, { target: { value: "Ted.Kasinsky@gmail.com" } });
+  expect(inputEmail.value).toBe("Ted.Kasinsky@gmail.com");
+});
+
+test("message text should input", () => {
+  const { inputText } = setupMessage();
+  fireEvent.change(inputText, {
+    target: { value: "This is a test, this is only a test" }
+  });
+  expect(inputText.value).toBe("This is a test, this is only a test");
 });
